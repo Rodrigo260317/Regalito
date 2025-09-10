@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorpresa Especial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Partículas flotantes */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Pantalla de llave y cerradura mejorada */
+        .lock-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .lock-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px 0;
+        }
+
+        .lock {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(145deg, #2c3e50, #34495e);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 2px 5px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            border: 3px solid #1a252f;
+        }
+
+        .lock.unlocked {
+            background: linear-gradient(145deg, #27ae60, #2ecc71);
+            box-shadow: 
+                0 10px 30px rgba(46, 204, 113, 0.5),
+                inset 0 2px 5px rgba(255, 255, 255, 0.2);
+            animation: unlockPulse 0.5s ease;
+        }
+
+        @keyframes unlockPulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* Cerradura detallada */
+        .key-hole {
+            position: relative;
+            width: 40px;
+            height: 60px;
+            background: #1a252f;
+            border-radius: 20px 20px 10px 10px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .key-hole::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #0d1117;
+            border-radius: 50%;
+        }
+
+        .key-hole::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 20px;
+            background: #0d1117;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+        }
+
+        /* Llave de juego mejorada - Diseño realista */
+        .key {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, #ffd700, #ffed4e);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            cursor: grab;
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.4),
+                inset 0 2px 5px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            z-index: 11;
+            user-select: none;
+            border: 2px solid #e6c200;
+        }
+
+        /* Parte del cuerpo de la llave */
+        .key::before {
+            content: '';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 35px;
+            background: linear-gradient(145deg, #ffd700, #ffed4e);
+            border-radius: 0 0 3px 3px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid #e6c200;
+        }
+
+        /* Dientes de la llave */
+        .key::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(145deg, #ffd700, #ffed4e);
+            clip-path: polygon(
+                20% 0%, 30% 0%, 30% 40%, 40% 40%, 40% 0%, 60% 0%, 60% 40%, 70% 40%, 70% 0%, 80% 0%, 
+                100% 50%, 80% 100%, 70% 100%, 70% 60%, 60% 60%, 60% 100%, 40% 100%, 40% 60%, 30% 60%, 30% 100%, 20% 100%, 
+                0% 50%
+            );
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid #e6c200;
+        }
+
+        .key:active {
+            cursor: grabbing;
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .key.dragging {
+            opacity: 0.9;
+            transform: scale(1.2) rotate(15deg);
+            z-index: 1000;
+            box-shadow: 
+                0 15px 30px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .instruction {
+            color: white;
+            font-size: 1.5em;
+            margin: 20px 0;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+        }
+
+        /* Vista previa de regalos - Arriba de la cerradura */
+        .preview-gifts {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .preview-gift {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.3),
+                inset 0 2px 5px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            cursor: not-allowed;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Efecto de sombreado para indicar no seleccionable */
+        .preview-gift::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+            border-radius: 18px;
+        }
+
+        .preview-gift::after {
+            content: '🔒';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: rgba(255, 255, 255, 0.6);
+            z-index: 1;
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 10;
+            max-width: 800px;
+            width: 90%;
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Opciones de sorpresa */
+        .surprise-options {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .surprise-option {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 30px;
+            width: 250px;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .surprise-option:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .surprise-option.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .surprise-option.disabled:hover {
+            transform: none;
+        }
+
+        .surprise-option .icon {
+            font-size: 5em;
+            color: white;
+        }
+
+        /* Modal de contraseña */
+        .password-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            animation: modalPop 0.3s ease-out;
+        }
+
+        @keyframes modalPop {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            color: #764ba2;
+            margin-bottom: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content input:focus {
+            outline: none;
+            border-color: #764ba2;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .confirm-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Contenedor de sorpresa */
+        .surprise-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 200;
+            background: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .surprise-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            perspective: 1000px;
+        }
+
+        /* Cajas anidadas */
+        .nested-boxes {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        .box {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: all 1s ease;
+        }
+
+        .box.hidden {
+            opacity: 0;
+            transform: scale(0.1) rotateY(720deg);
+        }
+
+        .box-face {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: 3px solid white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 5em;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .box-face.front { transform: translateZ(200px); }
+        .box-face.back { transform: rotateY(180deg) translateZ(200px); }
+        .box-face.right { transform: rotateY(90deg) translateZ(200px); }
+        .box-face.left { transform: rotateY(-90deg) translateZ(200px); }
+        .box-face.top { transform: rotateX(90deg) translateZ(200px); }
+        .box-face.bottom { transform: rotateX(-90deg) translateZ(200px); }
+
+        /* Cajas más pequeñas */
+        .box-small {
+            width: 300px;
+            height: 300px;
+            left: 50px;
+            top: 50px;
+        }
+
+        .box-small .box-face {
+            width: 300px;
+            height: 300px;
+            font-size: 4em;
+        }
+
+        .box-small .box-face.front { transform: translateZ(150px); }
+        .box-small .box-face.back { transform: rotateY(180deg) translateZ(150px); }
+        .box-small .box-face.right { transform: rotateY(90deg) translateZ(150px); }
+        .box-small .box-face.left { transform: rotateY(-90deg) translateZ(150px); }
+        .box-small .box-face.top { transform: rotateX(90deg) translateZ(150px); }
+        .box-small .box-face.bottom { transform: rotateX(-90deg) translateZ(150px); }
+
+        .box-smaller {
+            width: 200px;
+            height: 200px;
+            left: 100px;
+            top: 100px;
+        }
+
+        .box-smaller .box-face {
+            width: 200px;
+            height: 200px;
+            font-size: 3em;
+        }
+
+        .box-smaller .box-face.front { transform: translateZ(100px); }
+        .box-smaller .box-face.back { transform: rotateY(180deg) translateZ(100px); }
+        .box-smaller .box-face.right { transform: rotateY(90deg) translateZ(100px); }
+        .box-smaller .box-face.left { transform: rotateY(-90deg) translateZ(100px); }
+        .box-smaller .box-face.top { transform: rotateX(90deg) translateZ(100px); }
+        .box-smaller .box-face.bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        /* Contenido de sorpresa */
+        .surprise-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            text-align: center;
+            color: white;
+            z-index: 201;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .surprise-content.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .surprise-content h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .surprise-gif {
+            width: 341px;
+            height: 455px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: floatImage 3s ease-in-out infinite;
+            object-fit: cover;
+        }
+
+        @keyframes floatImage {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .surprise-content p {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        /* Sistema de carga mejorado */
+        .loading-system {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 202;
+            display: none;
+        }
+
+        .loading-title {
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: titlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .magic-orbs {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .orb {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+            animation: orbFloat 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .orb:nth-child(2) { animation-delay: 0.5s; }
+        .orb:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
+        }
+
+        .orb::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: orbShine 3s infinite;
+        }
+
+        @keyframes orbShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .progress-container {
+            width: 400px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #8bc34a, #cddc39);
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .loading-text {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .sparkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkleFloat 3s linear infinite;
+        }
+
+        @keyframes sparkleFloat {
+            0% {
+                transform: translateY(0) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Confeti y Serpentina Mejorados */
+        .confetti-piece {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: confettiFall linear;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .serpentina-piece {
+            position: fixed;
+            width: 15px;
+            height: 80px;
+            pointer-events: none;
+            z-index: 1000;
+            transform-origin: top center;
+            animation: serpentinaFall ease-in;
+        }
+
+        @keyframes serpentinaFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg) scaleY(0.1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(50vh) rotate(180deg) scaleY(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg) scaleY(0.1);
+                opacity: 0;
+            }
+        }
+
+        .star-burst {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .star {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: starBurst ease-out forwards;
+        }
+
+        @keyframes starBurst {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 202;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* Mensaje de opción ya elegida */
+        .chosen-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            color: #666;
+            font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .lock-container {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .lock {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .key {
+                width: 60px;
+                height: 60px;
+                font-size: 2em;
+                top: 40px;
+                left: 40px;
+            }
+            
+            .key::before {
+                height: 25px;
+                bottom: -15px;
+            }
+            
+            .key::after {
+                bottom: -40px;
+            }
+            
+            .instruction {
+                font-size: 1.2em;
+            }
+            
+            .preview-gift {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5em;
+            }
+            
+            .surprise-box {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .box-face {
+                width: 300px !important;
+                height: 300px !important;
+                font-size: 4em !important;
+            }
+            
+            .box-face.front { transform: translateZ(150px) !important; }
+            .box-face.back { transform: rotateY(180deg) translateZ(150px) !important; }
+            .box-face.right { transform: rotateY(90deg) translateZ(150px) !important; }
+            .box-face.left { transform: rotateY(-90deg) translateZ(150px) !important; }
+            .box-face.top { transform: rotateX(90deg) translateZ(150px) !important; }
+            .box-face.bottom { transform: rotateX(-90deg) translateZ(150px) !important; }
+            
+            .box-small {
+                width: 220px !important;
+                height: 220px !important;
+                left: 40px !important;
+                top: 40px !important;
+            }
+            
+            .box-small .box-face {
+                width: 220px !important;
+                height: 220px !important;
+                font-size: 3em !important;
+            }
+            
+            .box-small .box-face.front { transform: translateZ(110px) !important; }
+            .box-small .box-face.back { transform: rotateY(180deg) translateZ(110px) !important; }
+            .box-small .box-face.right { transform: rotateY(90deg) translateZ(110px) !important; }
+            .box-small .box-face.left { transform: rotateY(-90deg) translateZ(110px) !important; }
+            .box-small .box-face.top { transform: rotateX(90deg) translateZ(110px) !important; }
+            .box-small .box-face.bottom { transform: rotateX(-90deg) translateZ(110px) !important; }
+            
+            .box-smaller {
+                width: 150px !important;
+                height: 150px !important;
+                left: 75px !important;
+                top: 75px !important;
+            }
+            
+            .box-smaller .box-face {
+                width: 150px !important;
+                height: 150px !important;
+                font-size: 2em !important;
+            }
+            
+            .box-smaller .box-face.front { transform: translateZ(75px) !important; }
+            .box-smaller .box-face.back { transform: rotateY(180deg) translateZ(75px) !important; }
+            .box-smaller .box-face.right { transform: rotateY(90deg) translateZ(75px) !important; }
+            .box-smaller .box-face.left { transform: rotateY(-90deg) translateZ(75px) !important; }
+            .box-smaller .box-face.top { transform: rotateX(90deg) translateZ(75px) !important; }
+            .box-smaller .box-face.bottom { transform: rotateX(-90deg) translateZ(75px) !important; }
+            
+            .surprise-content h2 {
+                font-size: 2em;
+            }
+            
+            .surprise-content p {
+                font-size: 1.3em;
+            }
+            
+            .surprise-gif {
+                width: 280px;
+                height: 374px;
+            }
+            
+            .loading-system {
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            
+            .loading-title {
+                font-size: 1.5em;
+            }
+            
+            .magic-orbs {
+                gap: 15px;
+            }
+            
+            .orb {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .progress-container {
+                width: 300px;
+            }
+            
+            .loading-text {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Partículas flotantes -->
+    <div class="floating-particles" id="particles"></div>
+
+    <!-- Pantalla de llave y cerradura -->
+    <div class="lock-screen" id="lockScreen">
+        <!-- Vista previa de regalos arriba de la cerradura -->
+        <div class="preview-gifts">
+            <div class="preview-gift">🎁</div>
+            <div class="preview-gift">🎁</div>
+        </div>
+        
+        <div class="lock-container">
+            <div class="lock" id="lock">
+                <div class="key-hole"></div>
+            </div>
+            <div class="key" id="key">🔑</div>
+        </div>
+        <p class="instruction">Arrastra la llave a la cerradura</p>
+    </div>
+
+    <!-- Contenedor principal -->
+    <div class="main-container" id="mainContainer">
+        <div class="surprise-options">
+            <div class="surprise-option" id="option1" onclick="selectSurprise(1)">
+                <div class="icon">🎁</div>
+            </div>
+            
+            <div class="surprise-option" id="option2" onclick="selectSurprise(2)">
+                <div class="icon">🎁</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de contraseña -->
+    <div class="password-modal" id="passwordModal">
+        <div class="modal-content">
+            <h2>🔐 Acceso Secreto</h2>
+            <input type="password" id="modalPassword" placeholder="Ingresa la contraseña" autocomplete="off">
+            <div class="modal-buttons">
+                <button class="modal-btn cancel-btn" onclick="closeModal()">Cancelar</button>
+                <button class="modal-btn confirm-btn" onclick="confirmPassword()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor de sorpresa -->
+    <div class="surprise-container" id="surpriseContainer">
+        <button class="close-btn" onclick="closeSurprise()">×</button>
+        
+        <div class="surprise-box">
+            <div class="nested-boxes">
+                <!-- Caja grande -->
+                <div class="box" id="box1">
+                    <div class="box-face front">🎁</div>
+                    <div class="box-face back">✨</div>
+                    <div class="box-face right">🎉</div>
+                    <div class="box-face left">🌟</div>
+                    <div class="box-face top">💝</div>
+                    <div class="box-face bottom">🎊</div>
+                </div>
+                
+                <!-- Caja mediana -->
+                <div class="box box-small" id="box2" style="display: none;">
+                    <div class="box-face front">🎁</div>
+                    <div class="box-face back">✨</div>
+                    <div class="box-face right">🎉</div>
+                    <div class="box-face left">🌟</div>
+                    <div class="box-face top">💝</div>
+                    <div class="box-face bottom">🎊</div>
+                </div>
+                
+                <!-- Caja pequeña -->
+                <div class="box box-smaller" id="box3" style="display: none;">
+                    <div class="box-face front">🎁</div>
+                    <div class="box-face back">✨</div>
+                    <div class="box-face right">🎉</div>
+                    <div class="box-face left">🌟</div>
+                    <div class="box-face top">💝</div>
+                    <div class="box-face bottom">🎊</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sistema de carga mejorado -->
+        <div class="loading-system" id="loadingSystem">
+            <h2 class="loading-title">Preparando tu sorpresa...</h2>
+            <div class="magic-orbs">
+                <div class="orb"></div>
+                <div class="orb"></div>
+                <div class="orb"></div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p class="loading-text" id="loadingText">Iniciando magia...</p>
+            <div class="sparkles" id="sparkles"></div>
+        </div>
+        
+        <div class="surprise-content" id="surpriseContent">
+            <!-- El contenido se llenará dinámicamente -->
+        </div>
+    </div>
+
+    <script>
+        // Crear partículas
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Sistema de sonido con archivos reales
+        class SoundEffects {
+            constructor() {
+                // URLs de sonidos libres de derechos
+                this.applauseUrl = 'https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b273d.mp3';
+                this.hornUrl = 'https://cdn.pixabay.com/audio/2022/10/16/audio_12b6b1b7b2.mp3';
+                this.applauseAudio = new Audio(this.applauseUrl);
+                this.hornAudio = new Audio(this.hornUrl);
+                this.applauseAudio.preload = 'auto';
+                this.hornAudio.preload = 'auto';
+            }
+
+            playApplause() {
+                this.applauseAudio.currentTime = 0;
+                this.applauseAudio.play();
+            }
+
+            playTuuuu() {
+                this.hornAudio.currentTime = 0;
+                this.hornAudio.play();
+            }
+
+            unlockAudio() {
+                // No es necesario para archivos de audio, pero se mantiene por compatibilidad
+            }
+        }
+
+        // Instanciar efectos de sonido
+        const soundEffects = new SoundEffects();
+
+        // Sistema de arrastrar llave
+        const key = document.getElementById('key');
+        const lock = document.getElementById('lock');
+        let isDragging = false;
+        let initialX = 0;
+        let initialY = 0;
+        let currentX = 0;
+        let currentY = 0;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        // Eventos para el arrastre
+        key.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+
+        // Eventos táctiles para móviles
+        key.addEventListener('touchstart', dragStart);
+        document.addEventListener('touchmove', drag);
+        document.addEventListener('touchend', dragEnd);
+
+        function dragStart(e) {
+            if (e.type === "touchstart") {
+                initialX = e.touches[0].clientX - xOffset;
+                initialY = e.touches[0].clientY - yOffset;
+            } else {
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+            }
+
+            if (e.target === key) {
+                isDragging = true;
+                key.classList.add('dragging');
+            }
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                
+                if (e.type === "touchmove") {
+                    currentX = e.touches[0].clientX - initialX;
+                    currentY = e.touches[0].clientY - initialY;
+                } else {
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+                }
+
+                xOffset = currentX;
+                yOffset = currentY;
+
+                key.style.transform = `translate(${currentX}px, ${currentY}px)`;
+            }
+        }
+
+        function dragEnd(e) {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+            key.classList.remove('dragging');
+            
+            // Verificar si la llave está cerca de la cerradura
+            const keyRect = key.getBoundingClientRect();
+            const lockRect = lock.getBoundingClientRect();
+            
+            const distance = Math.sqrt(
+                Math.pow(keyRect.left + keyRect.width/2 - lockRect.left - lockRect.width/2, 2) +
+                Math.pow(keyRect.top + keyRect.height/2 - lockRect.top - lockRect.height/2, 2)
+            );
+            
+            if (distance < 80) {
+                // Llave colocada correctamente
+                lock.classList.add('unlocked');
+                key.style.display = 'none';
+                setTimeout(() => {
+                    document.getElementById('lockScreen').style.display = 'none';
+                    document.getElementById('mainContainer').style.display = 'block';
+                }, 500);
+            } else {
+                // Devolver la llave a su posición original
+                xOffset = 0;
+                yOffset = 0;
+                key.style.transform = 'translate(0px, 0px)';
+            }
+        }
+
+        // Verificar opciones ya elegidas
+        function checkChosenOptions() {
+            const chosen = localStorage.getItem('chosenSurprise');
+            if (chosen === '1') {
+                document.getElementById('option1').classList.add('disabled');
+                document.getElementById('option1').onclick = null;
+                const message = document.createElement('div');
+                message.className = 'chosen-message';
+                message.textContent = 'Ya elegiste esta sorpresa';
+                document.getElementById('option1').appendChild(message);
+            } else if (chosen === '2') {
+                document.getElementById('option2').classList.add('disabled');
+                document.getElementById('option2').onclick = null;
+                const message = document.createElement('div');
+                message.className = 'chosen-message';
+                message.textContent = 'Ya elegiste esta sorpresa';
+                document.getElementById('option2').appendChild(message);
+            }
+        }
+
+        // Seleccionar sorpresa
+        let selectedSurprise = null;
+        function selectSurprise(option) {
+            const chosen = localStorage.getItem('chosenSurprise');
+            if (chosen) {
+                if (chosen == option) {
+                    alert('Ya elegiste esta sorpresa');
+                } else {
+                    alert('Ya elegiste la otra sorpresa');
+                }
+                return;
+            }
+            
+            selectedSurprise = option;
+            // Mostrar el modal de contraseña
+            document.getElementById('passwordModal').style.display = 'flex';
+            document.getElementById('modalPassword').value = '';
+            document.getElementById('modalPassword').focus();
+        }
+
+        // Cerrar modal
+        function closeModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            selectedSurprise = null;
+        }
+
+        // Confirmar contraseña
+        function confirmPassword() {
+            const password = document.getElementById('modalPassword').value;
+            if (password.toLowerCase() === 'contraseña') {
+                localStorage.setItem('chosenSurprise', selectedSurprise);
+                showSurprise(selectedSurprise);
+                closeModal();
+            } else {
+                document.getElementById('modalPassword').style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    document.getElementById('modalPassword').style.animation = '';
+                }, 500);
+            }
+        }
+
+        // Precargar imagen
+        function preloadImage(url) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = url;
+                img.onload = () => resolve(img);
+                img.onerror = reject;
+            });
+        }
+
+        // Crear destellos
+        function createSparkles() {
+            const sparklesContainer = document.getElementById('sparkles');
+            for (let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 3 + 's';
+                sparkle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                sparklesContainer.appendChild(sparkle);
+            }
+        }
+
+        // Mostrar sorpresa con sistema de carga mejorado
+        async function showSurprise(option) {
+            document.getElementById('surpriseContainer').style.display = 'block';
+            
+            // Resetear cajas
+            document.getElementById('box1').classList.remove('hidden');
+            document.getElementById('box2').classList.remove('hidden');
+            document.getElementById('box3').classList.remove('hidden');
+            document.getElementById('box2').style.display = 'none';
+            document.getElementById('box3').style.display = 'none';
+            document.getElementById('surpriseContent').classList.remove('show');
+            
+            // Determinar URL del GIF
+            const gifUrl = option === 1 
+                ? 'https://media1.tenor.com/m/9lfkOuaFDDsAAAAd/gatos-bailando.gif'
+                : 'https://media1.tenor.com/m/0Q5IZ6e9pC8AAAAd/cat-cute-cat.gif';
+            
+            // Mostrar sistema de carga
+            document.getElementById('loadingSystem').style.display = 'block';
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('sparkles').innerHTML = '';
+            createSparkles();
+            
+            // Precargar imagen mientras se muestra la animación
+            const imgPromise = preloadImage(gifUrl);
+            
+            // Mensajes de carga
+            const loadingMessages = [
+                'Iniciando magia...',
+                'Conjurando sorpresas...',
+                'Preparando el baile...',
+                'Casi listo...',
+                '¡Sorpresa en camino!'
+            ];
+            
+            // Simular progreso de carga
+            let progress = 0;
+            const progressBar = document.getElementById('progressBar');
+            const loadingText = document.getElementById('loadingText');
+            
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15 + 5; // Incremento aleatorio
+                if (progress > 100) progress = 100;
+                
+                progressBar.style.width = progress + '%';
+                
+                // Actualizar mensaje según el progreso
+                const messageIndex = Math.floor((progress / 100) * loadingMessages.length);
+                if (messageIndex < loadingMessages.length) {
+                    loadingText.textContent = loadingMessages[messageIndex];
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                }
+            }, 800);
+            
+            // Secuencia de apertura de cajas
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Abrir caja 1
+            document.getElementById('box1').classList.add('hidden');
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            // Mostrar caja 2
+            document.getElementById('box2').style.display = 'block';
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Abrir caja 2
+            document.getElementById('box2').classList.add('hidden');
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            // Mostrar caja 3
+            document.getElementById('box3').style.display = 'block';
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Abrir caja 3
+            document.getElementById('box3').classList.add('hidden');
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            // Esperar a que la imagen se cargue
+            const img = await imgPromise;
+            
+            // Asegurarse de que el progreso llegue a 100%
+            progress = 100;
+            progressBar.style.width = '100%';
+            loadingText.textContent = '¡Sorpresa en camino!';
+            
+            // Pequeña pausa antes de mostrar el contenido
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Ocultar sistema de carga y mostrar contenido
+            document.getElementById('loadingSystem').style.display = 'none';
+            showSurpriseContent(img);
+        }
+
+        // Mostrar contenido final
+        function showSurpriseContent(img) {
+            const content = document.getElementById('surpriseContent');
+            
+            content.innerHTML = `
+                <h2>¡Sorpresa!</h2>
+                <img src="${img.src}" alt="Sorpresa" class="surprise-gif">
+                <p>¡Te ganaste este bailecito y todo mi agradecimiento!</p>
+            `;
+            
+            // Mostrar contenido con animación
+            content.classList.add('show');
+            
+            // Desbloquear audio y reproducir efectos de sonido
+            soundEffects.unlockAudio();
+            
+            // Reproducir secuencia de sonidos
+            setTimeout(() => {
+                soundEffects.playApplause();
+            }, 500);
+            
+            setTimeout(() => {
+                soundEffects.playTuuuu();
+            }, 1500);
+            
+            // Crear efecto de celebración masivo
+            createMassiveCelebration();
+        }
+
+        // Crear celebración masiva con confeti, serpentina y estrellas
+        function createMassiveCelebration() {
+            // Crear múltiples oleadas de celebración distribuidas en toda la pantalla
+            setTimeout(() => createConfettiWave(), 100);
+            setTimeout(() => createSerpentinaWave(), 300);
+            setTimeout(() => createStarWave(), 500);
+            setTimeout(() => createConfettiWave(), 700);
+            setTimeout(() => createSerpentinaWave(), 900);
+            setTimeout(() => createStarWave(), 1100);
+            setTimeout(() => createConfettiWave(), 1300);
+            setTimeout(() => createSerpentinaWave(), 1500);
+        }
+
+        // Crear ola de confeti distribuida en toda la pantalla
+        function createConfettiWave() {
+            const colors = ['#f093fb', '#f5576c', '#4facfe', '#00f2fe', '#43e97b', '#38f9d7', '#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1'];
+            
+            for (let i = 0; i < 200; i++) {
+                setTimeout(() => {
+                    const piece = document.createElement('div');
+                    piece.className = 'confetti-piece';
+                    
+                    // Distribución aleatoria en todo el ancho de la pantalla
+                    piece.style.left = Math.random() * window.innerWidth + 'px';
+                    piece.style.top = '-20px';
+                    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    
+                    // Formas aleatorias
+                    if (Math.random() > 0.5) {
+                        piece.style.borderRadius = '50%';
+                    }
+                    
+                    // Tamaños variables
+                    const size = Math.random() * 8 + 6;
+                    piece.style.width = size + 'px';
+                    piece.style.height = size + 'px';
+                    
+                    document.body.appendChild(piece);
+                    
+                    setTimeout(() => {
+                        piece.remove();
+                    }, 4000);
+                }, i * 15);
+            }
+        }
+
+        // Crear ola de serpentina distribuida en toda la pantalla
+        function createSerpentinaWave() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff'];
+            
+            for (let i = 0; i < 80; i++) {
+                setTimeout(() => {
+                    const piece = document.createElement('div');
+                    piece.className = 'serpentina-piece';
+                    
+                    // Distribución aleatoria en todo el ancho de la pantalla
+                    piece.style.left = Math.random() * window.innerWidth + 'px';
+                    piece.style.top = '-100px';
+                    piece.style.background = `linear-gradient(180deg, ${colors[Math.floor(Math.random() * colors.length)]}, ${colors[Math.floor(Math.random() * colors.length)]})`;
+                    piece.style.animationDuration = (Math.random() * 1 + 3) + 's';
+                    piece.style.width = (Math.random() * 15 + 10) + 'px';
+                    
+                    // Rotación inicial aleatoria
+                    piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    document.body.appendChild(piece);
+                    
+                    setTimeout(() => {
+                        piece.remove();
+                    }, 5000);
+                }, i * 25);
+            }
+        }
+
+        // Crear ola de estrellas desde múltiples puntos
+        function createStarWave() {
+            // Crear múltiples puntos de explosión de estrellas
+            const burstPoints = 8;
+            for (let b = 0; b < burstPoints; b++) {
+                setTimeout(() => {
+                    const centerX = (window.innerWidth / burstPoints) * b + (window.innerWidth / burstPoints / 2);
+                    const centerY = Math.random() * window.innerHeight;
+                    
+                    createStarBurst(centerX, centerY);
+                }, b * 100);
+            }
+        }
+
+        // Crear explosión de estrellas desde un punto específico
+        function createStarBurst(centerX, centerY) {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.left = centerX + 'px';
+                    star.style.top = centerY + 'px';
+                    
+                    const angle = (Math.PI * 2 * i) / 20;
+                    const distance = Math.random() * 300 + 100;
+                    star.style.setProperty('--x', Math.cos(angle) * distance + 'px');
+                    star.style.setProperty('--y', Math.sin(angle) * distance + 'px');
+                    star.style.animationDuration = (Math.random() * 0.5 + 1) + 's';
+                    
+                    document.body.appendChild(star);
+                    
+                    setTimeout(() => {
+                        star.remove();
+                    }, 1500);
+                }, i * 20);
+            }
+        }
+
+        // Cerrar sorpresa
+        function closeSurprise() {
+            document.getElementById('surpriseContainer').style.display = 'none';
+            checkChosenOptions();
+        }
+
+        // Permitir Enter en el modal
+        document.getElementById('modalPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                confirmPassword();
+            }
+        });
+
+        // Animación shake
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Inicializar
+        createParticles();
+    </script>
+</body>
+</html>
